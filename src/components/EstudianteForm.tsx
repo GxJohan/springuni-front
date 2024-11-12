@@ -10,7 +10,7 @@ interface EstudianteFormProps {
     //Función para cancelar la edición
     onCancel?: () => void;
 }
-const EstudianteForm: React.FC<EstudianteFormProps> = ({onSubmit,initialData,onCancel}) => {
+const EstudianteForm: React.FC<EstudianteFormProps> = ({onSubmit, initialData, onCancel}) => {
     //Estados de los campos del formulario
     const [codigo, setCodigo] = useState(initialData?.codigo || '');//Estado para el campo código
     const [nombre, setNombre] = useState(initialData?.nombre || '');//Estado para el campo nombre

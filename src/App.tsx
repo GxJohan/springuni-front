@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const obtenerEstudiantes = async () => {
     try {
       //Hace una solicitud GET a la API de estudiantes /api/estudiantes
-      const respuesta = await axios.get<Estudiante[]>('/api/estudiantes');
+      const respuesta = await axios.get('/api/estudiantes');
       //Actualiza el estado (Información de los estudiantes)
       setEstudiantes(respuesta.data);
     } catch (error) {
@@ -42,14 +42,15 @@ const App: React.FC = () => {
     }
   };
   //Función para manejar la Actualización de un estudiante
-  const manejarActualizar = async (estudiante: Estudiante) => {
+  const manejarActualizar = async (estudiante: Omit <Estudiante,'id'>) => {
     //Si no hay estudiante para editar, no hace nada
     if(!estudianteEdit) return;
     try {
       //Hace una solicitud PUT a la API de estudiantes /api/estudiantes
-      await axios.put(`/api/estudiantes/${estudiante.id}`, estudiante);
+      await axios.put(`/api/estudiantes/${estudianteEdit.id}`, estudiante);
       //Obtiene la lista de estudiantes actualizada
       obtenerEstudiantes();
+      setEstudianteEdit(null);
     } catch (error) {
       //Muestra el error en la consola
       console.error(error);
@@ -84,12 +85,9 @@ const App: React.FC = () => {
       <h1>CRUD de Estudiantes</h1>
       {/*Componente de Formulario para crear o editar estudiantes*/}
       <EstudianteForm
-      //Determina que función ejecutar al enviar el formulario
-      onSubmit={(estudiante) => estudianteEdit 
-        ? manejarActualizar({ ...estudiante, id: estudianteEdit.id }) 
-        : manejarCrear(estudiante)}
-      initialData={estudianteEdit|| undefined}//Datos iniciales para editar
-      onCancel={estudianteEdit? cancelarEdicion: undefined}//Función para cancelar la edición
+        onSubmit={estudianteEdit ? manejarActualizar : manejarCrear} // Determina qué función ejecutar al enviar el formulario
+        initialData={estudianteEdit || undefined} // Pasa los datos iniciales si se está editando
+        onCancel={estudianteEdit ? cancelarEdicion : undefined} // Pasa la función para cancelar si se está editando
       />
       {/*Componente de tabla para mostrar la lista de estudiantes*/}
       <EstudianteTable
