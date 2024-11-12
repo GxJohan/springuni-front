@@ -20,10 +20,10 @@ const EstudianteForm: React.FC<EstudianteFormProps> = ({onSubmit,initialData,onC
     //se cambia el valor de initialData
     useEffect(()=>{
         if(initialData){
-            setCodigo(initialData?.codigo);
-            setNombre(initialData?.nombre);
-            setApellido(initialData?.apellido);
-            setEmail(initialData?.email);
+            setCodigo(initialData.codigo);
+            setNombre(initialData.nombre);
+            setApellido(initialData.apellido);
+            setEmail(initialData.email);
         }else{
             setCodigo('');
             setNombre('');
